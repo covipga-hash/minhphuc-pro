@@ -1283,7 +1283,206 @@ ul {
 }
 
 /* ==========================================================================
-   7. CÔNG CỤ TÍNH CHI PHÍ & TƯ VẤN (#du-toan)
+   7. THI CÔNG CHO DOANH NGHIỆP (#doanh-nghiep)
+   ========================================================================== */
+.b2b-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+  margin-bottom: 38px;
+}
+
+.b2b-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  box-shadow: var(--shadow-xs);
+  min-width: 0;
+}
+
+.b2b-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 3px;
+  background-color: var(--accent-500);
+  border-radius: 0 0 3px 3px;
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+
+.b2b-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-600);
+}
+
+.b2b-card:hover::before {
+  transform: scaleX(1);
+}
+
+.b2b-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.b2b-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary-100);
+  color: var(--primary-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition), color var(--transition);
+  flex-shrink: 0;
+}
+
+.b2b-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.b2b-card:hover .b2b-icon {
+  background-color: var(--primary-700);
+  color: #ffffff;
+}
+
+.b2b-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary-700);
+  background-color: var(--primary-50);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--primary-200);
+  white-space: nowrap;
+}
+
+.b2b-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+
+.b2b-card-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.62;
+  margin-bottom: 22px;
+  flex-grow: 1;
+}
+
+.b2b-card-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.b2b-price-box {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.b2b-price-label {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.b2b-price-val {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent-500);
+}
+
+.b2b-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: var(--primary-50);
+  color: var(--primary-700);
+  border: 1.5px solid var(--primary-200);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  text-decoration: none;
+}
+
+.b2b-cta-btn:hover {
+  background-color: var(--primary-700);
+  color: #ffffff;
+  border-color: var(--primary-700);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+/* B2B Banner Note */
+.b2b-banner {
+  background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-800) 55%, var(--primary-700) 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 30px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.b2b-banner-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.b2b-banner-desc {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.b2b-banner-action {
+  flex-shrink: 0;
+}
+
+.b2b-banner-action .btn {
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   8. CÔNG CỤ TÍNH CHI PHÍ & TƯ VẤN (#du-toan)
    ========================================================================== */
 .calc-layout {
   display: grid;
@@ -2567,6 +2766,13 @@ ul {
 /* ==========================================================================
    16. RESPONSIVE MOBILE & TABLET
    ========================================================================== */
+@media (max-width: 1140px) and (min-width: 861px) {
+  .nav-links a {
+    padding: 6px 9px;
+    font-size: 0.82rem;
+  }
+}
+
 @media (max-width: 1080px) {
   .brand-logo {
     flex-shrink: 1;
@@ -2585,6 +2791,25 @@ ul {
   .process-grid,
   .reviews-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .b2b-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .b2b-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 22px;
+    gap: 18px;
+  }
+
+  .b2b-banner-action {
+    width: 100%;
+  }
+
+  .b2b-banner-action .btn {
+    width: 100%;
   }
 
   .guides-grid {
@@ -2663,6 +2888,7 @@ ul {
   }
 
   .services-grid,
+  .b2b-grid,
   .projects-grid,
   .process-grid,
   .reviews-grid,
@@ -2674,6 +2900,10 @@ ul {
   .legal-card-grid,
   .proj-modal-specs {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .b2b-card {
+    padding: 22px 18px;
   }
 
   .calc-actions {
