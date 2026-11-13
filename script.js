@@ -19,6 +19,9 @@
     phoneDisplay: '0972 892 812'
   };
 
+  const LEAD_ENDPOINT =
+    'https://script.google.com/macros/s/AKfycbyjfGpdsyTCYVQKEB4f77FAelYQ84dFRdjncwYe7dZxyqN3w7hrjiY0YxHlTi6GzOjWrQ/exec';
+
   const HOUSE_LABELS = {
     'nha-pho': 'Nhà phố',
     'biet-thu': 'Biệt thự'
@@ -222,8 +225,38 @@
   let activeGuideTitle = '';
 
   /* =========================================================================
-     2. SHARED HELPERS (STORAGE, PHONE VALIDATION, MODALS, SCROLL)
+     2. SHARED HELPERS (STORAGE, PHONE VALIDATION, MODALS, SCROLL, LEAD DISPATCH)
      ========================================================================= */
+  function guiLeadMinhPhuc(payload) {
+    try {
+      if (!LEAD_ENDPOINT || typeof fetch !== 'function') return;
+      const data = {
+        name: payload && payload.name ? String(payload.name).trim() : '',
+        phone: payload && payload.phone ? String(payload.phone).trim() : '',
+        need: payload && payload.need ? String(payload.need).trim() : '',
+        note: payload && payload.note ? String(payload.note).trim() : '',
+        source: payload && payload.source ? String(payload.source).trim() : 'Web Minh Phúc',
+        sourceUrl:
+          payload && payload.sourceUrl
+            ? String(payload.sourceUrl)
+            : (typeof window !== 'undefined' && window.location ? window.location.href : '')
+      };
+
+      fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(data)
+      }).catch(function () {
+        // Silently catch network failures so user experience is never broken
+      });
+    } catch (_) {
+      // Silently catch any unexpected errors
+    }
+  }
+
   function safeStorageGet(key) {
     try {
       return window.localStorage ? window.localStorage.getItem(key) || '' : '';
@@ -682,6 +715,16 @@
           successZaloBtn.href = COMPANY_CONFIG.zaloUrl;
         }
 
+        // (a) Gửi lead từ Form dự toán (quoteModal) tới Google Sheet
+        guiLeadMinhPhuc({
+          name: rawName,
+          phone: rawPhone,
+          need: snap.summaryLine,
+          note: '',
+          source: 'Web dự toán',
+          sourceUrl: window.location.href
+        });
+
         if (modalFormView) modalFormView.hidden = true;
         if (modalSuccessView) modalSuccessView.hidden = false;
       });
@@ -954,6 +997,16 @@
         const data = validateAndPersistContact();
         if (!data) return;
 
+        // (b) Gửi lead từ Form liên hệ (qua Zalo) tới Google Sheet
+        guiLeadMinhPhuc({
+          name: data.name,
+          phone: data.phone,
+          need: 'Liên hệ: ' + (data.need || ''),
+          note: data.need || '',
+          source: 'Form liên hệ',
+          sourceUrl: window.location.href
+        });
+
         const summaryText =
           '[YÊU CẦU TƯ VẤN MINH PHÚC]\nHọ tên: ' +
           data.name +
@@ -985,6 +1038,16 @@
       e.preventDefault();
       const data = validateAndPersistContact();
       if (!data) return;
+
+      // (b) Gửi lead từ Form liên hệ (qua Email) tới Google Sheet
+      guiLeadMinhPhuc({
+        name: data.name,
+        phone: data.phone,
+        need: 'Liên hệ: ' + (data.need || ''),
+        note: data.need || '',
+        source: 'Form liên hệ',
+        sourceUrl: window.location.href
+      });
 
       const subject = encodeURIComponent(
         '[Tư Vấn Xây Dựng] Yêu cầu báo giá từ ' + data.name + ' - ' + data.phone
