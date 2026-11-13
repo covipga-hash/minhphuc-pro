@@ -2,6 +2,16 @@
  * ============================================================================
  * LIVE CHAT WIDGET — CÔNG TY TNHH THIẾT KẾ & XÂY DỰNG MINH PHÚC
  * Hộp chat trực tuyến với Kỹ sư Minh Phúc
+ * 
+ * LUỒNG CHAT PHÍA KHÁCH HÀNG (3 BƯỚC CHUẨN):
+ * 1. Khách bấm nút chat nổi -> Hiện form chào (KHÔNG mở khung chat ngay).
+ *    Form gồm: Số điện thoại (bắt buộc 10 số, bắt đầu bằng 0) + Tên (tùy chọn).
+ * 2. Ô tích chấp nhận: "Tôi đồng ý để Công Ty TNHH Thiết Kế & Xây Dựng Minh Phúc
+ *    liên hệ lại với tôi qua số điện thoại này." + nút "Bắt đầu chat".
+ *    Nút "Bắt đầu chat" MỜ/KHÔNG bấm được cho tới khi nhập SĐT hợp lệ VÀ tích chấp nhận.
+ * 3. Chỉ khi khách đã chấp nhận thì khung chat mới mở ra để nhắn tin.
+ *    Tin nhắn của khách tự động kèm SĐT + Tên.
+ *    Đóng mở lại trong cùng phiên (sessionStorage) không hỏi lại SĐT; đóng tab thì hỏi lại.
  * ============================================================================
  */
 
@@ -13,7 +23,7 @@
   var pollInterval = null;
   var isPolling = false;
 
-  // Helper đọc phiên chat của khách từ sessionStorage
+  // Helper đọc phiên chat từ sessionStorage
   function getChatSession() {
     try {
       var raw = sessionStorage.getItem(STORAGE_KEY);
@@ -23,14 +33,14 @@
     }
   }
 
-  // Helper lưu phiên chat
+  // Helper lưu phiên chat vào sessionStorage
   function saveChatSession(data) {
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (_) {}
   }
 
-  // Khởi tạo Widget sau khi DOM sẵn sàng
+  // Khởi tạo Widget
   function initChatWidget() {
     // 1. Gắn nút nổi vào cụm .floating-actions hoặc .floating-dock nếu chưa có
     var floatingDock = document.querySelector('.floating-actions') || document.querySelector('.floating-dock');
@@ -62,44 +72,46 @@
         '    <div class="mp-chat-avatar">MP</div>' +
         '    <div>' +
         '      <div class="mp-chat-title">Kỹ Sư Xây Dựng Minh Phúc</div>' +
-        '      <div class="mp-chat-status"><span class="status-dot"></span> Trực tuyến 24/7</div>' +
+        '      <div class="mp-chat-status"><span class="status-dot"></span> Trực tuyến hỗ trợ</div>' +
         '    </div>' +
         '  </div>' +
         '  <button type="button" class="mp-chat-close" id="btn-close-chat-widget" aria-label="Đóng hộp chat">&times;</button>' +
         '</div>' +
         '' +
-        '<!-- MÀN HÌNH 1: ĐIỀN THÔNG TIN TÊN & SĐT -->' +
+        '<!-- BƯỚC 1 & 2: FORM CHÀO VÀ ĐỒNG Ý LIÊN HỆ -->' +
         '<div id="mp-chat-intake" class="mp-chat-body">' +
         '  <div class="mp-chat-welcome">' +
         '    <h4>Tư Vấn Kỹ Thuật Trực Tiếp 💬</h4>' +
-        '    <p>Để kỹ sư Minh Phúc hỗ trợ chuẩn xác và lưu hồ sơ công trình, vui lòng nhập họ tên và số điện thoại của bạn:</p>' +
+        '    <p>Để kỹ sư Minh Phúc giải đáp và lưu thông số công trình, vui lòng để lại số điện thoại liên hệ:</p>' +
         '  </div>' +
         '  <form id="form-chat-intake" class="mp-chat-form" novalidate>' +
         '    <div class="chat-field">' +
-        '      <label for="chat-guest-name">Họ và tên của bạn *</label>' +
-        '      <input type="text" id="chat-guest-name" placeholder="Ví dụ: Anh Hoàng, Chị Lan..." required autocomplete="name" />' +
+        '      <label for="chat-guest-phone">Số điện thoại *</label>' +
+        '      <input type="tel" id="chat-guest-phone" placeholder="Ví dụ: 0972 892 812 (10 số)" maxlength="11" required autocomplete="tel" />' +
+        '      <small class="field-hint" id="chat-phone-hint">Bắt buộc: 10 chữ số, bắt đầu bằng số 0</small>' +
         '    </div>' +
         '    <div class="chat-field">' +
-        '      <label for="chat-guest-phone">Số điện thoại / Zalo *</label>' +
-        '      <input type="tel" id="chat-guest-phone" placeholder="09xx xxx xxx (10 số)" maxlength="11" required autocomplete="tel" />' +
-        '      <small class="field-hint">Số điện thoại đúng định dạng Việt Nam 10 chữ số</small>' +
+        '      <label for="chat-guest-name">Tên của bạn <span class="label-opt">(Tùy chọn)</span></label>' +
+        '      <input type="text" id="chat-guest-name" placeholder="Ví dụ: Anh Hoàng, Chị Mai... (không bắt buộc)" autocomplete="name" />' +
         '    </div>' +
-        '    <div class="chat-field">' +
-        '      <label for="chat-guest-msg">Nội dung cần tư vấn *</label>' +
-        '      <textarea id="chat-guest-msg" rows="3" placeholder="Ví dụ: Tôi muốn tư vấn chi phí xây nhà 1 trệt 2 lầu tại Thủ Đức..." required></textarea>' +
+        '    <div class="chat-consent-box">' +
+        '      <label class="consent-checkbox-label">' +
+        '        <input type="checkbox" id="chat-consent-checkbox" />' +
+        '        <span>Tôi đồng ý để Công Ty TNHH Thiết Kế &amp; Xây Dựng Minh Phúc liên hệ lại với tôi qua số điện thoại này.</span>' +
+        '      </label>' +
         '    </div>' +
         '    <div id="chat-intake-error" class="chat-error-msg" hidden></div>' +
-        '    <button type="submit" class="btn btn-primary btn-block" id="btn-start-chat">' +
-        '      Bắt đầu trò chuyện &rarr;' +
+        '    <button type="submit" class="btn btn-primary btn-block btn-start-chat-disabled" id="btn-start-chat" disabled>' +
+        '      Bắt đầu chat &rarr;' +
         '    </button>' +
         '  </form>' +
         '</div>' +
         '' +
-        '<!-- MÀN HÌNH 2: KHÔNG GIAN TIN NHẮN -->' +
+        '<!-- BƯỚC 3: KHUNG CHAT NHẮN TIN TRỰC TIẾP -->' +
         '<div id="mp-chat-messages-view" class="mp-chat-body" hidden>' +
         '  <div class="mp-chat-guest-bar">' +
         '    <span>Khách: <strong id="chat-guest-name-display">...</strong> (<span id="chat-guest-phone-display">...</span>)</span>' +
-        '    <button type="button" class="chat-btn-reset" id="btn-chat-reset-session" title="Đổi thông tin khách hàng">Đổi số</button>' +
+        '    <button type="button" class="chat-btn-reset" id="btn-chat-reset-session" title="Đổi số điện thoại liên hệ">Đổi số</button>' +
         '  </div>' +
         '  <div class="mp-chat-stream" id="mp-chat-stream">' +
         '    <div class="chat-empty-hint">Đang tải tin nhắn...</div>' +
@@ -127,26 +139,33 @@
     var closeBtn = document.getElementById('btn-close-chat-widget');
     var widget = document.getElementById('mp-chat-widget');
     var intakeForm = document.getElementById('form-chat-intake');
+    var phoneInput = document.getElementById('chat-guest-phone');
+    var consentCheck = document.getElementById('chat-consent-checkbox');
     var sendForm = document.getElementById('form-chat-send');
     var resetBtn = document.getElementById('btn-chat-reset-session');
 
+    // Bấm nút chat nổi -> Mở cửa sổ
     if (fabBtn && widget) {
       fabBtn.addEventListener('click', function () {
         var isHidden = widget.hidden;
         widget.hidden = !isHidden;
         widget.setAttribute('aria-hidden', String(!isHidden));
         if (!widget.hidden) {
-          // Xóa badge thông báo đỏ khi mở chat
           var badge = document.getElementById('chat-fab-badge');
           if (badge) badge.hidden = true;
-          startPolling();
+
           var session = getChatSession();
-          if (session && session.conversationId) {
+          if (session && session.isAccepted && session.phone) {
+            // Đã chấp nhận trước đó trong phiên: mở thẳng khung chat
+            renderChatView();
+            startPolling();
             var quickInput = document.getElementById('chat-quick-text');
             if (quickInput) quickInput.focus();
           } else {
-            var nameInput = document.getElementById('chat-guest-name');
-            if (nameInput) nameInput.focus();
+            // Chưa chấp nhận: hiện form chào, kiểm tra trạng thái nút Bắt đầu chat
+            renderChatView();
+            checkIntakeValidation();
+            if (phoneInput) phoneInput.focus();
           }
         } else {
           stopPolling();
@@ -154,6 +173,7 @@
       });
     }
 
+    // Đóng widget
     if (closeBtn && widget) {
       closeBtn.addEventListener('click', function () {
         widget.hidden = true;
@@ -162,36 +182,142 @@
       });
     }
 
-    if (resetBtn) {
-      resetBtn.addEventListener('click', function () {
-        if (confirm('Bạn muốn kết thúc phiên chat hiện tại để bắt đầu với số điện thoại khác?')) {
-          sessionStorage.removeItem(STORAGE_KEY);
-          renderChatView();
-        }
-      });
+    // Kiểm tra tính hợp lệ liên tục trên ô SĐT và Checkbox
+    if (phoneInput) {
+      phoneInput.addEventListener('input', checkIntakeValidation);
+      phoneInput.addEventListener('change', checkIntakeValidation);
+      phoneInput.addEventListener('blur', checkIntakeValidation);
+    }
+    if (consentCheck) {
+      consentCheck.addEventListener('change', checkIntakeValidation);
     }
 
+    // Bấm nút Bắt đầu chat (sau khi đã kiểm tra hợp lệ)
     if (intakeForm) {
       intakeForm.addEventListener('submit', handleIntakeSubmit);
     }
 
+    // Gửi tin nhắn trong khung chat
     if (sendForm) {
       sendForm.addEventListener('submit', handleQuickSend);
     }
+
+    // Nút đổi số điện thoại (bắt đầu lại)
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        if (confirm('Bạn muốn bắt đầu cuộc trò chuyện mới với số điện thoại khác?')) {
+          sessionStorage.removeItem(STORAGE_KEY);
+          renderChatView();
+          checkIntakeValidation();
+        }
+      });
+    }
   }
 
-  // Khôi phục phiên chat nếu đã có trong sessionStorage
+  // Kiểm tra SĐT 10 số + Checkbox đồng ý để mở khóa nút "Bắt đầu chat"
+  function checkIntakeValidation() {
+    var phoneInput = document.getElementById('chat-guest-phone');
+    var consentCheck = document.getElementById('chat-consent-checkbox');
+    var submitBtn = document.getElementById('btn-start-chat');
+    var phoneHint = document.getElementById('chat-phone-hint');
+    var errEl = document.getElementById('chat-intake-error');
+
+    if (!phoneInput || !consentCheck || !submitBtn) return false;
+
+    var rawPhone = (phoneInput.value || '').trim().replace(/[\s\.\-\(\)]/g, '');
+    var phonePattern = /^0[0-9]{9}$/;
+    var isPhoneValid = phonePattern.test(rawPhone);
+    var isConsentChecked = consentCheck.checked;
+
+    // Gợi ý trạng thái SĐT
+    if (rawPhone.length > 0 && !isPhoneValid) {
+      if (phoneHint) {
+        phoneHint.textContent = '⚠️ Số điện thoại phải gồm đúng 10 số và bắt đầu bằng số 0';
+        phoneHint.style.color = '#dc2626';
+      }
+    } else if (phoneHint) {
+      phoneHint.textContent = 'Bắt buộc: 10 chữ số, bắt đầu bằng số 0';
+      phoneHint.style.color = '';
+    }
+
+    if (errEl && !errEl.hidden) {
+      errEl.hidden = true;
+    }
+
+    // NÚT BẮT ĐẦU CHAT: MỜ / KHÔNG BẤM ĐƯỢC KHI CHƯA ĐỦ ĐIỀU KIỆN
+    if (isPhoneValid && isConsentChecked) {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('btn-start-chat-disabled');
+      submitBtn.style.opacity = '1';
+      submitBtn.style.pointerEvents = 'auto';
+      submitBtn.style.cursor = 'pointer';
+      return true;
+    } else {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('btn-start-chat-disabled');
+      submitBtn.style.opacity = '0.5';
+      submitBtn.style.pointerEvents = 'none';
+      submitBtn.style.cursor = 'not-allowed';
+      return false;
+    }
+  }
+
+  // Xử lý nộp form chào (Bước 2 -> Bước 3)
+  function handleIntakeSubmit(e) {
+    e.preventDefault();
+
+    var isValid = checkIntakeValidation();
+    if (!isValid) return;
+
+    var phoneInput = document.getElementById('chat-guest-phone');
+    var nameInput = document.getElementById('chat-guest-name');
+    var rawPhone = (phoneInput.value || '').trim().replace(/[\s\.\-\(\)]/g, '');
+    var nameVal = (nameInput.value || '').trim() || 'Quý khách';
+
+    // Tạo mã cuộc trò chuyện duy nhất cho phiên
+    var convId = 'chat_' + rawPhone + '_' + Date.now().toString(36);
+
+    // Tin nhắn chào mừng ban đầu từ Kỹ sư Minh Phúc
+    var welcomeMsg = {
+      id: 'welcome-' + Date.now(),
+      sender: 'nhanvien',
+      senderName: 'Kỹ sư Minh Phúc',
+      message: 'Chào ' + (nameVal !== 'Quý khách' ? nameVal : 'bạn') + '! Kỹ sư Xây Dựng Minh Phúc đã sẵn sàng hỗ trợ. Bạn đang cần tư vấn về thiết kế, xây nhà trọn gói hay khái toán chi phí công trình nào?',
+      time: formatCurrentTime()
+    };
+
+    var sessionData = {
+      conversationId: convId,
+      name: nameVal,
+      phone: rawPhone,
+      isAccepted: true,
+      hasSentFirstMsg: false,
+      messages: [welcomeMsg]
+    };
+
+    saveChatSession(sessionData);
+
+    // Chuyển sang Bước 3: Mở khung chat ngay
+    renderChatView();
+    startPolling();
+
+    var quickInput = document.getElementById('chat-quick-text');
+    if (quickInput) quickInput.focus();
+  }
+
+  // Khôi phục phiên chat
   function restoreExistingChatSession() {
     var session = getChatSession();
-    if (session && session.conversationId && session.phone) {
+    if (session && session.isAccepted && session.phone) {
       renderChatView();
       fetchMessages(true);
     } else {
       renderChatView();
+      checkIntakeValidation();
     }
   }
 
-  // Chuyển đổi hiển thị giữa Màn hình 1 (Form) và Màn hình 2 (Tin nhắn)
+  // Hiển thị giao diện theo trạng thái phiên
   function renderChatView() {
     var session = getChatSession();
     var intakeView = document.getElementById('mp-chat-intake');
@@ -201,7 +327,7 @@
 
     if (!intakeView || !messagesView) return;
 
-    if (session && session.conversationId && session.phone) {
+    if (session && session.isAccepted && session.phone) {
       intakeView.hidden = true;
       messagesView.hidden = false;
       if (nameDisplay) nameDisplay.textContent = session.name || 'Quý khách';
@@ -213,93 +339,7 @@
     }
   }
 
-  // Xử lý gửi Form nhập tên + SĐT ban đầu
-  function handleIntakeSubmit(e) {
-    e.preventDefault();
-    var errEl = document.getElementById('chat-intake-error');
-    var nameInput = document.getElementById('chat-guest-name');
-    var phoneInput = document.getElementById('chat-guest-phone');
-    var msgInput = document.getElementById('chat-guest-msg');
-    var submitBtn = document.getElementById('btn-start-chat');
-
-    var nameVal = (nameInput.value || '').trim();
-    var phoneVal = (phoneInput.value || '').trim().replace(/[\s\.\-\(\)]/g, '');
-    var msgVal = (msgInput.value || '').trim();
-
-    // Kiểm tra tên
-    if (!nameVal) {
-      showError(errEl, 'Vui lòng nhập họ và tên của bạn.');
-      nameInput.focus();
-      return;
-    }
-
-    // Kiểm tra định dạng số điện thoại Việt Nam 10 chữ số (bắt đầu bằng 03, 05, 07, 08, 09)
-    var phonePattern = /^0(3|5|7|8|9)[0-9]{8}$/;
-    if (!phonePattern.test(phoneVal)) {
-      showError(errEl, 'Số điện thoại không hợp lệ. Vui lòng nhập đúng 10 số di động Việt Nam (ví dụ 0972 892 812).');
-      phoneInput.focus();
-      return;
-    }
-
-    // Kiểm tra nội dung tin nhắn
-    if (!msgVal) {
-      showError(errEl, 'Vui lòng nhập nội dung cần tư vấn.');
-      msgInput.focus();
-      return;
-    }
-
-    hideError(errEl);
-
-    // Khởi tạo mã cuộc trò chuyện
-    var convId = 'chat_' + phoneVal + '_' + Date.now().toString(36);
-    var initialMessages = [
-      {
-        id: 'local-' + Date.now(),
-        sender: 'khach',
-        senderName: nameVal,
-        message: msgVal,
-        time: formatCurrentTime()
-      }
-    ];
-
-    var sessionData = {
-      conversationId: convId,
-      name: nameVal,
-      phone: phoneVal,
-      messages: initialMessages
-    };
-    saveChatSession(sessionData);
-    renderChatView();
-
-    // Vô hiệu hóa nút trong khi gửi
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Đang kết nối kỹ sư...';
-
-    // Gửi lên backend Apps Script
-    sendPostMessage(
-      {
-        action: 'sendMessage',
-        conversationId: convId,
-        name: nameVal,
-        phone: phoneVal,
-        message: msgVal,
-        sourceUrl: window.location.href
-      },
-      function (err, resp) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Bắt đầu trò chuyện →';
-        if (err) {
-          console.warn('[LiveChat] Gửi tin ban đầu gặp lỗi mạng, tin nhắn đã lưu tạm:', err);
-        } else if (resp && resp.conversationId) {
-          sessionData.conversationId = resp.conversationId;
-          saveChatSession(sessionData);
-        }
-        startPolling();
-      }
-    );
-  }
-
-  // Xử lý gửi tin nhắn tiếp theo trong khung chat
+  // Gửi tin nhắn trong khung chat
   function handleQuickSend(e) {
     e.preventDefault();
     var quickInput = document.getElementById('chat-quick-text');
@@ -323,13 +363,14 @@
 
     session.messages = session.messages || [];
     session.messages.push(newMsg);
+    session.hasSentFirstMsg = true;
     saveChatSession(session);
     renderMessageStream(session.messages);
 
     quickInput.value = '';
     quickInput.focus();
 
-    // Gửi lên backend
+    // Gửi tin nhắn lên server (tự động kèm SĐT + Tên)
     sendPostMessage(
       {
         action: 'sendMessage',
@@ -347,13 +388,13 @@
     );
   }
 
-  // Polling tự động tải tin nhắn mới mỗi 10 giây
+  // Polling tự động kiểm tra tin nhắn mới mỗi 10 giây
   function startPolling() {
     if (pollInterval) return;
     fetchMessages(false);
     pollInterval = setInterval(function () {
       fetchMessages(false);
-    }, 10000); // 10 giây theo yêu cầu
+    }, 10000); // 10 giây
   }
 
   function stopPolling() {
@@ -363,7 +404,7 @@
     }
   }
 
-  // Lấy tin nhắn từ server cho cuộc trò chuyện hiện tại
+  // Lấy tin nhắn từ server
   function fetchMessages(silent) {
     var session = getChatSession();
     if (!session || !session.conversationId || !session.phone) return;
@@ -392,7 +433,6 @@
             saveChatSession(session);
             renderMessageStream(serverMsgs);
 
-            // Nếu có tin nhắn mới từ nhân viên và widget đang đóng -> hiện badge
             var widget = document.getElementById('mp-chat-widget');
             if (widget && widget.hidden && serverMsgs.length > oldLen) {
               var lastMsg = serverMsgs[serverMsgs.length - 1];
@@ -407,12 +447,12 @@
       .catch(function (err) {
         isPolling = false;
         if (!silent) {
-          console.warn('[LiveChat] Tải tin nhắn kiểm tra:', err);
+          console.warn('[LiveChat] Tải tin nhắn:', err);
         }
       });
   }
 
-  // Hiển thị danh sách tin nhắn vào khung chat stream
+  // Hiển thị danh sách tin nhắn
   function renderMessageStream(messages) {
     var stream = document.getElementById('mp-chat-stream');
     if (!stream) return;
@@ -448,11 +488,9 @@
     }
 
     stream.innerHTML = html;
-    // Cuộn xuống tin mới nhất
     stream.scrollTop = stream.scrollHeight;
   }
 
-  // Helper gửi POST an toàn tới Apps Script
   function sendPostMessage(payload, callback) {
     fetch(CHAT_ENDPOINT, {
       method: 'POST',
@@ -468,18 +506,6 @@
       .catch(function (err) {
         if (callback) callback(err);
       });
-  }
-
-  function showError(el, msg) {
-    if (!el) return;
-    el.textContent = msg;
-    el.hidden = false;
-  }
-
-  function hideError(el) {
-    if (!el) return;
-    el.textContent = '';
-    el.hidden = true;
   }
 
   function formatCurrentTime() {
@@ -498,7 +524,7 @@
       .replace(/"/g, '&quot;');
   }
 
-  // Khởi động khi tài liệu sẵn sàng
+  // Khởi động
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initChatWidget);
   } else {
