@@ -2932,3 +2932,379 @@ ul {
     padding: 22px 18px;
   }
 }
+
+/* ==========================================================================
+   17. CỔNG QUẢN TRỊ NỘI BỘ (QUAN-TRI.HTML)
+   ========================================================================== */
+.admin-page-body {
+  background-color: var(--bg-canvas);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-main-content {
+  flex-grow: 1;
+  padding: 56px 0 80px;
+}
+
+/* Form Đăng Nhập */
+.admin-auth-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.admin-auth-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 40px 34px;
+  box-shadow: var(--shadow-lg);
+}
+
+.admin-card-head {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.admin-shield-icon {
+  width: 56px;
+  height: 56px;
+  background-color: var(--primary-100);
+  color: var(--primary-700);
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.admin-shield-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.admin-auth-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 6px;
+}
+
+.admin-auth-sub {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.admin-alert {
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.admin-alert-warning {
+  background-color: #fff8e6;
+  border: 1px solid #f4ab70;
+  color: #8f3a09;
+}
+
+.admin-alert-danger {
+  background-color: #fdf2f2;
+  border: 1px solid #f8b4b4;
+  color: #9b1c1c;
+}
+
+.admin-alert-success {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.admin-alert .alert-sub,
+.admin-alert .alert-desc {
+  font-size: 0.82rem;
+  margin-top: 6px;
+  opacity: 0.9;
+}
+
+.admin-card-foot {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.link-back-home {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--primary-700);
+  transition: color var(--transition-fast);
+}
+
+.link-back-home:hover {
+  color: var(--accent-500);
+}
+
+/* Dashboard Quản Trị */
+.admin-user-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-xs);
+}
+
+.admin-user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.user-avatar-badge {
+  font-size: 1.6rem;
+  background-color: var(--primary-100);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-greeting {
+  font-size: 1rem;
+  color: var(--text-heading);
+}
+
+.badge-role {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: var(--primary-700);
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  margin-left: 6px;
+  letter-spacing: 0.05em;
+}
+
+.admin-modules-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.admin-module-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 34px 30px;
+  box-shadow: var(--shadow-sm);
+}
+
+.module-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.module-head-split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.module-head-split .module-head {
+  margin-bottom: 0;
+}
+
+.module-num {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent-500);
+  background-color: var(--accent-100);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.module-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 4px;
+}
+
+.module-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Bảng Quản Lý Tin */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: var(--bg-subtle);
+  color: var(--text-heading);
+  font-weight: 700;
+  padding: 12px 14px;
+  border-bottom: 2px solid var(--border-medium);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.admin-table tr:hover {
+  background-color: var(--bg-canvas);
+}
+
+.admin-table tr.row-hidden {
+  opacity: 0.6;
+  background-color: #fafafa;
+}
+
+.badge-cat {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  font-size: 0.76rem;
+  font-weight: 700;
+  background-color: var(--primary-100);
+  color: var(--primary-700);
+}
+
+.badge-status {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.status-visible {
+  background-color: #def7ec;
+  color: #03543f;
+}
+
+.status-hidden {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.btn-danger-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid #f98080;
+  background-color: #fdf2f2;
+  color: #9b1c1c;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-danger-sm:hover {
+  background-color: #e02424;
+  color: #ffffff;
+  border-color: #e02424;
+}
+
+/* Card Xem Lead Google Sheet */
+.sheet-access-box {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  background: linear-gradient(135deg, var(--bg-subtle) 0%, #ffffff 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+.sheet-desc-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background-color: var(--primary-700);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sheet-desc-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.sheet-desc-text h3 {
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 6px;
+}
+
+.sheet-desc-text p {
+  font-size: 0.88rem;
+  color: var(--text-body);
+  margin-bottom: 14px;
+}
+
+.sheet-actions {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 640px) {
+  .sheet-access-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-user-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .admin-module-card {
+    padding: 22px 18px;
+  }
+}
