@@ -3514,6 +3514,46 @@ ul {
   border: 1px solid #fecaca;
 }
 
+.label-opt {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.chat-consent-box {
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  margin-top: 2px;
+}
+
+.consent-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--text-body);
+  cursor: pointer;
+}
+
+.consent-checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--primary-700);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.btn-start-chat-disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  filter: grayscale(40%);
+}
+
 .mp-chat-guest-bar {
   padding: 8px 14px;
   background: #ffffff;
