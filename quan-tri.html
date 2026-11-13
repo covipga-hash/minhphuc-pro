@@ -289,6 +289,74 @@
             </div>
           </div>
 
+          <!-- QUYỀN 4: TIN NHẮN TRỰC TIẾP (LIVE CHAT & TRẢ LỜI KHÁCH HÀNG) -->
+          <div class="admin-module-card admin-chat-module">
+            <div class="module-head-split">
+              <div class="module-head">
+                <span class="module-num">04</span>
+                <div>
+                  <h2 class="module-title">Tin Nhắn Trực Tiếp (Live Chat)</h2>
+                  <p class="module-desc">Tiếp nhận tin nhắn tư vấn từ khách hàng trên website. Xem toàn bộ lịch sử và trả lời trực tiếp.</p>
+                </div>
+              </div>
+              <div class="chat-module-actions">
+                <span id="chat-unread-badge" class="badge-unread" hidden>0 tin mới</span>
+                <button type="button" class="btn btn-ghost btn-sm" id="btn-refresh-chats" title="Làm mới danh sách tin nhắn">
+                  ↻ Làm mới
+                </button>
+              </div>
+            </div>
+
+            <div class="admin-chat-layout">
+              <!-- Danh sách cuộc trò chuyện bên trái -->
+              <div class="admin-chat-sidebar">
+                <div class="chat-search-wrap">
+                  <input type="text" id="chat-search-input" placeholder="Tìm theo tên hoặc SĐT khách..." />
+                </div>
+                <div class="chat-conversations-list" id="admin-conversations-list">
+                  <div class="chat-loading-placeholder">Đang tải cuộc trò chuyện...</div>
+                </div>
+              </div>
+
+              <!-- Nội dung cuộc trò chuyện bên phải -->
+              <div class="admin-chat-main">
+                <div class="chat-empty-state" id="chat-empty-state">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <p>Chọn một cuộc trò chuyện từ danh sách bên trái để xem nội dung và trả lời khách hàng</p>
+                </div>
+
+                <div class="chat-thread-view" id="chat-thread-view" hidden>
+                  <div class="chat-thread-header">
+                    <div>
+                      <div class="chat-thread-name" id="thread-cust-name">Khách hàng</div>
+                      <div class="chat-thread-phone">
+                        <a href="#" id="thread-cust-phone" class="phone-link">0900000000</a>
+                        <span class="thread-id-pill" id="thread-conv-id">Mã: ...</span>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-ghost btn-xs" id="btn-close-thread" title="Đóng khung chat">&times;</button>
+                  </div>
+
+                  <div class="chat-messages-scroll" id="thread-messages-list">
+                    <!-- Bong bóng tin nhắn render ở đây -->
+                  </div>
+
+                  <form id="form-reply-chat" class="chat-reply-form">
+                    <textarea id="reply-text" rows="2" placeholder="Nhập câu trả lời gửi đến khách hàng..." required></textarea>
+                    <div class="reply-form-bar">
+                      <span class="reply-sender-note">Người gửi: <strong id="reply-staff-name">Nhân viên</strong></span>
+                      <button type="submit" class="btn btn-primary btn-sm" id="btn-send-reply">
+                        Gửi câu trả lời &rarr;
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
