@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>Cổng Quản Trị Nội Bộ | Công Ty TNHH Thiết Kế &amp; Xây Dựng Minh Phúc</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Google Fonts: Inter & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="admin-page-body">
+
+  <!-- =====================================================================
+       1. TOPBAR DOANH NGHIỆP
+       ===================================================================== -->
+  <aside class="topbar" aria-label="Thông tin liên hệ nhanh">
+    <div class="container topbar-inner">
+      <div class="topbar-group">
+        <span class="topbar-item">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          129/2/5 Đường số 6, KP.10, P. Long Bình, TP. Thủ Đức, TP.HCM
+        </span>
+        <span class="topbar-item">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          MST: <strong>0318878438</strong> (Sở KH&amp;ĐT TP.HCM)
+        </span>
+      </div>
+      <div class="topbar-group">
+        <a href="tel:0972892812" class="topbar-item topbar-phone" title="Hotline Minh Phúc">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          Hotline / Zalo: <strong>0972 892 812</strong>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =====================================================================
+       2. HEADER CỔNG QUẢN TRỊ
+       ===================================================================== -->
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="Về trang chủ">
+        <div class="brand-icon-frame">
+          <img src="assets/logo-mp.png" alt="Logo Minh Phúc" class="brand-img" />
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MINH PHÚC</span>
+          <span class="brand-sub">CỔNG QUẢN TRỊ NỘI BỘ</span>
+        </div>
+      </a>
+
+      <div class="admin-header-actions">
+        <a href="index.html" class="btn btn-outline btn-sm">
+          &larr; Quay về trang chính
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main-content">
+    <div class="container">
+
+      <!-- =================================================================
+           VIEW 1: FORM ĐĂNG NHẬP (CHẶN NẾU CHƯA CÓ TÀI KHOẢN HOẶC SAI PASS)
+           ================================================================= -->
+      <section id="admin-login-view" class="admin-auth-section">
+        <div class="admin-auth-card">
+          <div class="admin-card-head">
+            <div class="admin-shield-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <h1 class="admin-auth-title">Đăng Nhập Quản Trị Viên</h1>
+            <p class="admin-auth-sub">Dành cho nhân sự điều hành và biên tập viên Xây Dựng Minh Phúc.</p>
+          </div>
+
+          <!-- Thông báo khi hệ thống chưa có tài khoản -->
+          <div id="admin-no-account-notice" class="admin-alert admin-alert-warning" hidden></div>
+
+          <!-- Thông báo lỗi khi đăng nhập sai -->
+          <div id="admin-login-error" class="admin-login-error admin-alert-danger" hidden></div>
+
+          <form id="admin-login-form" class="admin-form" novalidate>
+            <div class="form-group">
+              <label for="admin-user">Tên đăng nhập</label>
+              <input
+                type="text"
+                id="admin-user"
+                placeholder="Nhập tên đăng nhập của bạn"
+                required
+                autocomplete="username"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="admin-pass">Mật khẩu</label>
+              <input
+                type="password"
+                id="admin-pass"
+                placeholder="Nhập mật khẩu"
+                required
+                autocomplete="current-password"
+              />
+            </div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="btn btn-primary btn-block" id="btn-admin-submit">
+                Đăng nhập vào hệ thống &rarr;
+              </button>
+            </div>
+          </form>
+
+          <div class="admin-card-foot">
+            <a href="index.html" class="link-back-home">&larr; Quay về trang chính website</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           VIEW 2: TRANG QUẢN TRỊ 3 QUYỀN (SAU KHI ĐĂNG NHẬP THÀNH CÔNG)
+           ================================================================= -->
+      <section id="admin-dashboard-view" class="admin-dashboard-section" hidden>
+        <!-- Top bar quản trị viên -->
+        <div class="admin-user-bar">
+          <div class="admin-user-info">
+            <span class="user-avatar-badge">👤</span>
+            <div>
+              <div class="user-greeting">
+                Xin chào, <strong id="admin-current-name">Quản trị viên</strong>
+                <span class="badge-role" id="admin-current-role">Quản trị</span>
+              </div>
+              <small class="text-muted">Phiên làm việc bảo mật (sessionStorage — tự hủy khi đóng tab)</small>
+            </div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-admin-logout">
+            Đăng xuất &rarr;
+          </button>
+        </div>
+
+        <!-- Cụm 3 quyền quản trị -->
+        <div class="admin-modules-grid">
+
+          <!-- QUYỀN 1: ĐĂNG TIN TỨC (GHI VÀO TAB TINTUC VỚI TRẠNG THÁI "HIỂN THỊ") -->
+          <div class="admin-module-card">
+            <div class="module-head">
+              <span class="module-num">01</span>
+              <div>
+                <h2 class="module-title">Đăng Tin Tức Mới</h2>
+                <p class="module-desc">Ghi bài viết mới vào tab TinTuc với trạng thái "Hiển thị". Trang tin tức sẽ đồng bộ từ tab này.</p>
+              </div>
+            </div>
+
+            <div id="add-news-alert" class="admin-alert" hidden></div>
+
+            <form id="form-add-news" class="admin-edit-form" novalidate>
+              <div class="form-group">
+                <label for="news-title">Tiêu đề bài viết *</label>
+                <input type="text" id="news-title" placeholder="Ví dụ: Tiến độ Vành đai 3 TP.HCM đoạn qua TP. Thủ Đức" required />
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="news-category">Chuyên mục</label>
+                  <select id="news-category">
+                    <option value="ha-tang" selected>Hạ tầng</option>
+                    <option value="xay-dung">Xây dựng</option>
+                    <option value="tin-cong-ty">Tin công ty</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="news-img">Đường dẫn ảnh đại diện (URL hoặc assets/)</label>
+                  <input type="text" id="news-img" placeholder="https://... hoặc assets/news/..." />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="news-summary">Tóm tắt ngắn (1-2 câu hiển thị ở danh sách bài)</label>
+                <textarea id="news-summary" rows="2" placeholder="Tóm tắt ngắn gọn nội dung cốt lõi của bài viết..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="news-content">Nội dung bài viết đầy đủ</label>
+                <textarea id="news-content" rows="6" placeholder="Nhập các đoạn văn chi tiết của bài viết..."></textarea>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="news-source">Nguồn báo chính thống</label>
+                  <input type="text" id="news-source" placeholder="Ví dụ: Báo Tuổi Trẻ, VnExpress..." />
+                </div>
+                <div class="form-group">
+                  <label for="news-source-url">Liên kết bài gốc</label>
+                  <input type="url" id="news-source-url" placeholder="https://tuoitre.vn/..." />
+                </div>
+              </div>
+
+              <div class="form-actions-row">
+                <button type="submit" class="btn btn-primary" id="btn-submit-news">
+                  Đăng bài viết lên web &rarr;
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- QUYỀN 2: XÓA TIN TỨC (XÓA MỀM: ĐỔI TRẠNG THÁI THÀNH "ẨN") -->
+          <div class="admin-module-card">
+            <div class="module-head-split">
+              <div class="module-head">
+                <span class="module-num">02</span>
+                <div>
+                  <h2 class="module-title">Quản Lý &amp; Xóa Tin Tức</h2>
+                  <p class="module-desc">Danh sách bài trong tab TinTuc. Thao tác xóa sẽ chuyển trạng thái thành "Ẩn" (xóa mềm, không xóa dòng).</p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" id="btn-refresh-news" title="Làm mới danh sách bài viết">
+                ↻ Làm mới
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Mã ID</th>
+                    <th>Tiêu đề bài viết</th>
+                    <th>Chuyên mục</th>
+                    <th>Ngày đăng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="news-table-body">
+                  <tr>
+                    <td colspan="6" style="text-align:center; padding: 20px;">Đang tải danh sách bài viết...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- QUYỀN 3: XEM DATA KHÁCH HÀNG (MỞ TAB GOOGLE SHEET, KHÔNG NHÚNG LÊN WEB) -->
+          <div class="admin-module-card">
+            <div class="module-head">
+              <span class="module-num">03</span>
+              <div>
+                <h2 class="module-title">Xem Dữ Liệu Khách Hàng (Google Sheet)</h2>
+                <p class="module-desc">Tiếp nhận thông tin khách gửi từ Form dự toán &amp; Form liên hệ. Để bảo mật tuyệt đối thông tin khách hàng, hệ thống chỉ mở trực tiếp trong Google Sheets bằng tài khoản được cấp quyền.</p>
+              </div>
+            </div>
+
+            <div class="sheet-access-box">
+              <div class="sheet-desc-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="sheet-desc-text">
+                <h3>Bảng Tính Quản Trị &amp; Khách Hàng Xây Dựng Minh Phúc</h3>
+                <p>Bao gồm tab <code>TaiKhoan</code> (danh sách quản trị viên), tab <code>TinTuc</code> (bài viết xuất bản) và kết nối với dữ liệu khách hàng.</p>
+                <div class="sheet-actions">
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/19iS3iGoRBFOKLN8zI9cZy2Z42PaCrU3xTZ3QABbEckY/edit"
+                    id="link-open-sheet"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-secondary"
+                  >
+                    Mở Sheet Quản Trị &amp; Dữ Liệu (Tab mới) &rarr;
+                  </a>
+                </div>
+                <small class="text-muted">Lưu ý: Chỉ tài khoản Google được chủ web chia sẻ quyền truy cập (như covipga@gmail.com) mới có thể xem được dữ liệu này.</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- =====================================================================
+       FOOTER CHUẨN DOANH NGHIỆP
+       ===================================================================== -->
+  <footer class="site-footer" id="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col footer-col-brand">
+        <a href="index.html" class="brand-logo footer-logo" aria-label="Về trang chủ">
+          <div class="brand-icon-frame">
+            <img src="assets/logo-mp.png" alt="Logo Minh Phúc" class="brand-img" />
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">MINH PHÚC</span>
+            <span class="brand-sub">KIẾN TRÚC &bull; XÂY DỰNG</span>
+          </div>
+        </a>
+        <p class="footer-bio">
+          Công Ty TNHH Thiết Kế &amp; Xây Dựng Minh Phúc chuyên thiết kế kiến trúc, thi công phần thô, xây nhà trọn gói và thi công cho doanh nghiệp tại TP. Thủ Đức và khu vực lân cận.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Khám phá nhanh</h3>
+        <ul class="footer-links">
+          <li><a href="index.html#gioi-thieu">Hồ sơ pháp lý công ty</a></li>
+          <li><a href="index.html#dich-vu">Dịch vụ &amp; Bảng vật tư</a></li>
+          <li><a href="index.html#doanh-nghiep">Thi công cho doanh nghiệp</a></li>
+          <li><a href="index.html#du-toan">Đăng ký khái toán chi phí</a></li>
+          <li><a href="index.html#cong-trinh">Công trình minh họa (mẫu)</a></li>
+          <li><a href="index.html#lien-he">Liên hệ &amp; Bản đồ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-heading">Thông tin liên hệ &amp; Pháp lý</h3>
+        <ul class="footer-contact-list">
+          <li><strong>Mã số thuế:</strong> <span>0318878438 (Sở KH&amp;ĐT TP.HCM)</span></li>
+          <li><strong>Đại diện PL:</strong> <span>Đỗ Ngọc Tình</span></li>
+          <li><strong>Trụ sở:</strong> <span>129/2/5 Đường số 6, KP.10, P. Long Bình, TP. Thủ Đức, TP.HCM</span></li>
+          <li><strong>Hotline / Zalo:</strong> <a href="tel:0972892812">0972 892 812</a></li>
+          <li><strong>Email:</strong> <a href="mailto:lienhe@xaydungminhphuc.com">lienhe@xaydungminhphuc.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p class="copyright">
+        &copy; 2026 Công Ty TNHH Thiết Kế &amp; Xây Dựng Minh Phúc. MST 0318878438. Tất cả quyền được bảo lưu.
+      </p>
+      <div class="footer-bottom-links">
+        <a href="index.html">Trang chủ</a>
+        <span class="sep">&bull;</span>
+        <a href="quan-tri.html">Cổng Quản trị nội bộ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>
