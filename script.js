@@ -1100,6 +1100,32 @@
     });
   }
 
+  function initHeaderAuthButton() {
+    var authBtn = document.getElementById('header-auth-btn');
+    if (!authBtn) return;
+    var labelEl = authBtn.querySelector('.header-login-text');
+    var isLoggedIn = false;
+    try {
+      var raw = sessionStorage.getItem('minhphuc_admin_user_session');
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && parsed.username && parsed.token) {
+          isLoggedIn = true;
+        }
+      }
+    } catch (_) {}
+
+    if (isLoggedIn) {
+      if (labelEl) labelEl.textContent = 'Quản trị';
+      authBtn.classList.add('is-logged-in');
+      authBtn.setAttribute('aria-label', 'Vào trang quản trị');
+    } else {
+      if (labelEl) labelEl.textContent = 'Đăng nhập';
+      authBtn.classList.remove('is-logged-in');
+      authBtn.setAttribute('aria-label', 'Đăng nhập quản trị');
+    }
+  }
+
   function initGlobalModalShortcuts() {
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
@@ -1113,6 +1139,7 @@
      ========================================================================= */
   document.addEventListener('DOMContentLoaded', function () {
     initHeaderAndNav();
+    initHeaderAuthButton();
     initRevealObserver();
     initHeroCounters();
     initTabGroup('.about-tab-btn', 'data-about-tab', 'about-panel-');
