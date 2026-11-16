@@ -424,10 +424,9 @@ function doPost(e) {
 
       // Đồng thời ghi lead khách vào Sheet Data khách nếu là tin nhắn khởi đầu
       try {
-        var filesLead = DriveApp.getFilesByName('Data khách Xây Dựng Minh Phúc');
-        if (filesLead.hasNext()) {
-          var leadSs = SpreadsheetApp.open(filesLead.next());
-          var sheetTarget = leadSs.getSheetByName('Trang tính1') || leadSs.getSheets()[0];
+        var leadSs = SpreadsheetApp.openById('1-5LO9u1FhOTg8P8y6_GI2p-3T_UbRarcyOevB2yZgiY');
+        var sheetTarget = leadSs.getSheetByName('Trang tính1') || leadSs.getSheets()[0];
+        if (sheetTarget) {
           sheetTarget.appendRow([
             nowStr,
             guestName,
@@ -716,30 +715,24 @@ function doPost(e) {
 
     var leadSheet = null;
     try {
-      var files = DriveApp.getFilesByName('Data khách Xây Dựng Minh Phúc');
-      if (files.hasNext()) {
-        leadSheet = SpreadsheetApp.open(files.next()).getSheetByName('Trang tính1');
-      }
+      var leadSpreadsheet = SpreadsheetApp.openById('1-5LO9u1FhOTg8P8y6_GI2p-3T_UbRarcyOevB2yZgiY');
+      leadSheet = leadSpreadsheet.getSheetByName('Trang tính1') || leadSpreadsheet.getSheets()[0];
     } catch (_) {}
 
     if (!leadSheet) {
-      try {
-        leadSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Trang tính1') || SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-      } catch (_) {}
+      return createJsonResponse({ ok: false, error: 'lead_sheet_not_found' });
     }
 
-    if (leadSheet) {
-      leadSheet.appendRow([
-        leadDate,
-        leadName,
-        "'" + leadPhone,
-        leadNeed,
-        leadNote,
-        leadSource,
-        leadSourceUrl,
-        '', '', '' // Note 1, Note 2, Note 3
-      ]);
-    }
+    leadSheet.appendRow([
+      leadDate,
+      leadName,
+      "'" + leadPhone,
+      leadNeed,
+      leadNote,
+      leadSource,
+      leadSourceUrl,
+      '', '', '' // Note 1, Note 2, Note 3
+    ]);
 
     return createJsonResponse({ ok: true, leadReceived: true });
   } catch (err) {
