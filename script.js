@@ -142,17 +142,17 @@
     },
     g4: {
       cat: 'Phong thủy nhà ở',
-      title: 'Nguyên tắc bố trí cửa chính, bếp & cầu thang hợp phong thủy',
+      title: 'Nguyên tắc bố trí cửa chính, bếp & cầu thang theo hướng khoa học',
       paragraphs: [
-        'Với đặc thù nhà phố Việt Nam chiều ngang hẹp và chiều sâu lớn, việc dung hòa giữa nguyên lý vi khí hậu (lấy sáng, thông gió) và phong thủy giúp ngôi nhà vừa thoáng mát vừa tạo cảm giác an tâm cho gia đình.'
+        'Với nhà phố Việt Nam chiều ngang hẹp và chiều sâu lớn, bố trí hợp lý trước hết là bài toán lấy sáng, thông gió và riêng tư. Mỗi gợi ý dưới đây đều đi kèm lý do thực dụng.'
       ],
       bullets: [
-        'Cửa chính: Tránh mở cửa chính nhìn thẳng trực diện ra cửa hậu hoặc cửa toilet (lỗi xuyên tâm sát); nên dùng bình phong, tiểu cảnh hoặc lệch trục nhẹ để điều tiết luồng gió.',
-        'Khu vực bếp: Không đặt bếp đối diện trực tiếp cửa nhà vệ sinh hoặc ngay dưới xà ngang, gầm bể phốt; chú trọng máy hút mùi và cửa sổ thoát khí.',
-        'Cầu thang: Bố trí ở vị trí trung tâm hoặc áp tường thông thoáng để dẫn khí lên các tầng trên, tổng số bậc thường chia theo quy luật Sinh - Lão - Bệnh - Tử rơi vào cung Sinh (ví dụ 21 hoặc 25 bậc mỗi tầng).',
-        'Giếng trời & phòng ngủ: Đặt đầu giường tựa vào bức tường vững chắc, tránh chiếu thẳng vào gương lớn hoặc cửa WC.'
+        'Cửa chính: Tránh để cửa chính nhìn thẳng ra cửa hậu hoặc cửa nhà vệ sinh vì người ngoài dễ nhìn xuyên vào nhà và gió lùa mạnh; có thể dùng vách ngăn, tiểu cảnh hoặc lệch trục nhẹ.',
+        'Khu vực bếp: Không đặt bếp đối diện cửa nhà vệ sinh vì lý do vệ sinh thực phẩm; cần cửa sổ hoặc quạt hút để thoát khói, mùi và hơi nóng.',
+        'Cầu thang: Đặt áp tường, không đối diện thẳng cửa chính để giữ riêng tư và giảm gió lùa; bậc thang đều, đủ rộng, có tay vịn và đủ sáng để an toàn.',
+        'Phòng ngủ: Chọn vị trí yên tĩnh, tránh xà ngang chạy trên giường vì tạo cảm giác nặng nề; tránh đặt gương lớn đối diện giường vì dễ gây giật mình ban đêm.'
       ],
-      closing: 'Kiến trúc sư Minh Phúc luôn lồng ghép tư vấn hướng nhà, cung mệnh gia chủ và thông gió tự nhiên ngay từ phương án mặt bằng 2D đầu tiên.'
+      closing: 'Kiến trúc sư Minh Phúc luôn xét hướng nắng - gió, ánh sáng và nhu cầu sinh hoạt của gia đình ngay từ phương án mặt bằng 2D đầu tiên.'
     }
   };
 
