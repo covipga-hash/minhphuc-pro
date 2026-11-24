@@ -546,8 +546,8 @@ ul {
 }
 
 .nav-links a {
-  padding: 8px 10px;
-  font-size: 0.85rem;
+  padding: 7px 7px;
+  font-size: 0.84rem;
   font-weight: 600;
   color: var(--text-body);
   border-radius: var(--radius-sm);
@@ -2815,8 +2815,8 @@ ul {
    ========================================================================== */
 @media (max-width: 1140px) and (min-width: 861px) {
   .nav-links a {
-    padding: 6px 9px;
-    font-size: 0.82rem;
+    padding: 6px 6px;
+    font-size: 0.8rem;
   }
 }
 
@@ -4100,5 +4100,236 @@ ul {
     height: 85vh;
     max-height: 85vh;
     border-radius: 18px 18px 0 0;
+  }
+}
+
+
+/* ==========================================================================
+   19. MỤC PHONG THỦY (PHONG-THUY.HTML + TEASER TRANG CHỦ)
+   ========================================================================== */
+.pt-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.pt-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pt-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pt-card {
+  position: relative;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pt-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.pt-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-body);
+}
+
+.pt-why {
+  margin-top: 4px !important;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-subtle);
+  font-size: 0.86rem !important;
+}
+
+.pt-why strong {
+  color: var(--primary-700);
+}
+
+.pt-tag {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background-color: var(--primary-50);
+  color: var(--primary-700);
+}
+
+.pt-tag-warn {
+  background-color: #fbeee3;
+  color: var(--accent-500);
+}
+
+.pt-note {
+  margin: 22px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-body);
+  text-align: center;
+}
+
+.pt-note-small {
+  font-size: 0.88rem;
+}
+
+.pt-disclaimer {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.pt-card-num .pt-num {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent-500);
+  line-height: 1;
+}
+
+.pt-locked {
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 26px;
+  background: linear-gradient(135deg, var(--primary-50) 0%, #ffffff 100%);
+  border: 1.5px dashed var(--primary-700);
+  border-radius: var(--radius-md);
+}
+
+.pt-locked-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--primary-700);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pt-locked-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.pt-locked-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.pt-locked-text h3 {
+  margin: 0 0 4px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.pt-locked-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-body);
+}
+
+.pt-locked-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.pt-cta-row {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.pt-lead-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 32px;
+  align-items: start;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg, 16px);
+  padding: 32px;
+  box-shadow: var(--shadow-md);
+}
+
+.pt-lead-intro .section-title {
+  margin: 8px 0 12px;
+}
+
+.pt-lead-intro p {
+  margin: 0 0 10px;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+
+.pt-success {
+  padding: 22px;
+  border-radius: var(--radius-md);
+  background-color: var(--primary-50);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pt-success h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  color: var(--primary-700);
+}
+
+.pt-success p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Teaser trên trang chủ */
+.pt-teaser-cta {
+  margin-top: 26px;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .pt-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pt-lead-card {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pt-grid-3,
+  .pt-grid-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pt-locked {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pt-locked-btn {
+    width: 100%;
+    text-align: center;
   }
 }
